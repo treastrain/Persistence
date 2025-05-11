@@ -14,11 +14,11 @@
 
     struct PersistedCombineTests: Sendable {
         @Persisted(
-            store: Store.shared,
+            store: Store(),
             key: "value",
             defaultValue: 0
         )
-        var value: Int
+        var value
 
         @Test(.tags(.defaultValue))
         mutating func test() async {
@@ -36,10 +36,10 @@
         }
 
         @Persisted(
-            store: Store.shared,
+            store: Store(),
             key: "wrapped-value"
         )
-        var wrappedValue: Int = 0
+        var wrappedValue = 0
 
         @Test(.tags(.wrappedValue))
         mutating func testWrappedValue() async {
@@ -57,7 +57,7 @@
         }
 
         @Persisted(
-            store: Store.shared,
+            store: Store(),
             key: "optional-value",
             defaultValue: nil
         )
@@ -93,7 +93,7 @@
         }
 
         @Persisted(
-            store: Store.shared,
+            store: Store(),
             key: "optional-wrapped-value"
         )
         var optionalWrappedValue: Int? = nil
@@ -115,16 +115,14 @@
         }
     }
 
-    private struct Store: KeyValuePersistentStore {
-        static let shared = Self()
+    private struct Store<Value: Codable & Sendable>: KeyValuePersistentStore {
+        private var storage: [String: Value] = [:]
 
-        private var storage: [String: Data] = [:]
-
-        func getValue(forKey key: String) -> Data? {
+        func getValue(forKey key: String) -> Value? {
             storage[key]
         }
 
-        mutating func set(value: Data?, forKey key: String) {
+        mutating func set(value: Value?, forKey key: String) {
             storage[key] = value
         }
     }

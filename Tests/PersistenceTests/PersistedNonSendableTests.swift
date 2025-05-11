@@ -1,8 +1,8 @@
 //
-//  PersistedTests.swift
+//  PersistedNonSendableTests.swift
 //  Persistence
 //
-//  Created by treastrain on 2025/05/08.
+//  Created by treastrain on 2025/05/10.
 //
 
 import Foundation
@@ -10,10 +10,12 @@ import Testing
 
 @testable import Persistence
 
-struct PersistedTests: Sendable {
+struct PersistedNonSendableTests {
     @Persisted(
-        store: Store(),
+        store: NonSendableStorageStore(),
         key: "value",
+        transformForGetting: { $0.value },
+        transformForSetting: { NonSendableValue(value: $0) },
         defaultValue: 0
     )
     var value
@@ -26,8 +28,10 @@ struct PersistedTests: Sendable {
     }
 
     @Persisted(
-        store: Store(),
-        key: "wrapped-value"
+        store: NonSendableStorageStore(),
+        key: "wrapped-value",
+        transformForGetting: { $0.value },
+        transformForSetting: { NonSendableValue(value: $0) }
     )
     var wrappedValue = 0
 
@@ -39,8 +43,10 @@ struct PersistedTests: Sendable {
     }
 
     @Persisted(
-        store: Store(),
+        store: NonSendableStorageStore(),
         key: "optional-value",
+        transformForGetting: { $0.value },
+        transformForSetting: { $0.map(NonSendableValue.init(value:)) },
         defaultValue: nil
     )
     var optionalValue: Int?
@@ -55,8 +61,10 @@ struct PersistedTests: Sendable {
     }
 
     @Persisted(
-        store: Store(),
-        key: "optional-wrapped-value"
+        store: NonSendableStorageStore(),
+        key: "optional-wrapped-value",
+        transformForGetting: { $0.value },
+        transformForSetting: { $0.map(NonSendableValue.init(value:)) }
     )
     var optionalWrappedValue: Int? = nil
 
@@ -70,9 +78,11 @@ struct PersistedTests: Sendable {
     }
 
     @Persisted(
-        store: Store(),
+        store: NonSendableStorageStore(),
         key: "custom-notification-value",
         notificationName: Notification.Name("custom-notification"),
+        transformForGetting: { $0.value },
+        transformForSetting: { NonSendableValue(value: $0) },
         defaultValue: 0
     )
     var customNotificationValue
@@ -96,9 +106,13 @@ struct PersistedTests: Sendable {
     }
 
     @Persisted(
-        store: Store(),
+        store: NonSendableStorageStore(),
         key: "custom-notification-wrapped-value",
-        notificationName: Notification.Name("custom-notification-wrapped-value")
+        notificationName: Notification.Name(
+            "custom-notification-wrapped-value"
+        ),
+        transformForGetting: { $0.value },
+        transformForSetting: { NonSendableValue(value: $0) }
     )
     var customNotificationWrappedValue = 0
 
@@ -119,16 +133,68 @@ struct PersistedTests: Sendable {
             customNotificationWrappedValue = 1
         }
     }
+
+    private static let transformFailedStore = Store<String>()
+    static let transformFailedValueKey = "transform-failed-value"
+    @Persisted(
+        store: transformFailedStore,
+        key: transformFailedValueKey,
+        transformForGetting: { Int($0) },
+        transformForSetting: { "\($0)" },
+        defaultValue: 999
+    )
+    var transformFailedValue
+
+    @Test(.tags(.defaultValue))
+    mutating func testTransformFailedValue() {
+        #expect(transformFailedValue == 999)
+        transformFailedValue = 1
+        #expect(transformFailedValue == 1)
+
+        @Persisted(
+            store: Self.transformFailedStore,
+            key: Self.transformFailedValueKey,
+            defaultValue: ""
+        )
+        var injection: String
+        injection = "Injected"
+
+        #expect(transformFailedValue == 999)
+    }
 }
 
-private struct Store<Value: Sendable>: KeyValuePersistentStore {
+@available(*, unavailable)
+extension PersistedNonSendableTests: Sendable {}
+
+private struct NonSendableStorageStore: KeyValuePersistentStore, Sendable {
+    private nonisolated(unsafe) var storage: [String: NonSendableValue] = [:]
+
+    func getValue(forKey key: String) -> NonSendableValue? {
+        storage[key]
+    }
+
+    mutating func set(value: NonSendableValue?, forKey key: String) {
+        storage[key] = value
+    }
+}
+
+private struct NonSendableValue {
+    var value: Int
+}
+
+@available(*, unavailable)
+extension NonSendableValue: Sendable {}
+
+private class Store<Value: Sendable>: KeyValuePersistentStore, @unchecked
+    Sendable
+{
     private var storage: [String: Value] = [:]
 
     func getValue(forKey key: String) -> Value? {
         storage[key]
     }
 
-    mutating func set(value: Value?, forKey key: String) {
+    func set(value: Value?, forKey key: String) {
         storage[key] = value
     }
 }

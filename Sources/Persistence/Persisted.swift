@@ -10,41 +10,39 @@ import Foundation
 @propertyWrapper
 public struct Persisted<
     Store: KeyValuePersistentStore,
-    Value: Codable & Sendable,
-    Decoder: PersistentDecoder,
-    Encoder: PersistentEncoder
->: Sendable {
+    Value: Sendable
+>: Sendable where Store: Sendable {
     public init(
         store: Store,
         key: String,
         notificationName: Notification.Name? = nil,
-        decoder: Decoder,
-        encoder: Encoder,
-        defaultValue: Value
+        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
+        transformForSetting: @escaping @Sendable (Value) -> Store.Value?,
+        defaultValue: consuming Value
     ) {
         self.store = store
         self.key = key
         self.notificationName = notificationName
-        self.decoder = decoder
-        self.encoder = encoder
+        self.transformForGetting = transformForGetting
+        self.transformForSetting = transformForSetting
         self.defaultValue = defaultValue
         self.internalNotificationName = Notification.Name(UUID().uuidString)
     }
 
     public init(
-        wrappedValue: Value,
+        wrappedValue: consuming Value,
         store: Store,
         key: String,
         notificationName: Notification.Name? = nil,
-        decoder: Decoder,
-        encoder: Encoder
+        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
+        transformForSetting: @escaping @Sendable (Value) -> Store.Value?
     ) {
         self.init(
             store: store,
             key: key,
             notificationName: notificationName,
-            decoder: decoder,
-            encoder: encoder,
+            transformForGetting: transformForGetting,
+            transformForSetting: transformForSetting,
             defaultValue: wrappedValue
         )
     }
@@ -52,20 +50,22 @@ public struct Persisted<
     var store: Store
     let key: String
     let notificationName: Notification.Name?
-    let decoder: Decoder
-    let encoder: Encoder
+    let transformForGetting: @Sendable (Store.Value) -> Value?
+    let transformForSetting: @Sendable (Value) -> Store.Value?
     let defaultValue: Value
     let internalNotificationName: Notification.Name
 
     public var wrappedValue: Value {
         get {
-            store.getValue(forKey: key)
-                .flatMap { decoder.decode(Value.self, from: $0) }
-                ?? defaultValue
+            if let value = store.getValue(forKey: key) {
+                transformForGetting(value) ?? defaultValue
+            } else {
+                defaultValue
+            }
         }
         set {
-            let data = encoder.encode(newValue)
-            store.set(value: data, forKey: key)
+            let value = transformForSetting(newValue)
+            store.set(value: value, forKey: key)
             NotificationCenter.default.post(
                 name: internalNotificationName,
                 object: NotificationObject(newValue)
@@ -80,4 +80,38 @@ public struct Persisted<
     }
 
     public var projectedValue: Self { self }
+}
+
+extension Persisted where Value == Store.Value {
+    public init(
+        store: Store,
+        key: String,
+        notificationName: Notification.Name? = nil,
+        defaultValue: consuming Value
+    ) {
+        self.init(
+            store: store,
+            key: key,
+            notificationName: notificationName,
+            transformForGetting: { $0 },
+            transformForSetting: { $0 },
+            defaultValue: defaultValue
+        )
+    }
+
+    public init(
+        wrappedValue: consuming Value,
+        store: Store,
+        key: String,
+        notificationName: Notification.Name? = nil
+    ) {
+        self.init(
+            wrappedValue: wrappedValue,
+            store: store,
+            key: key,
+            notificationName: notificationName,
+            transformForGetting: { $0 },
+            transformForSetting: { $0 }
+        )
+    }
 }
