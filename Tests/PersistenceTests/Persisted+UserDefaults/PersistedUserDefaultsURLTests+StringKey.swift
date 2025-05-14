@@ -10,35 +10,35 @@ import Testing
 
 @testable import Persistence
 
-private let exampleComURL = URL(string: "https://example.com")!
-private let exampleOrgURL = URL(string: "https://example.org")!
+private let devNullURL = URL(fileURLWithPath: "/dev/null")
+private let helloHappyWorldURL = URL(fileURLWithPath: "/hello/happy/world")
 
 struct PersistedUserDefaultsURLStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "value",
-        defaultValue: exampleComURL
+        defaultValue: devNullURL
     )
     var value
 
     @Test(.tags(.defaultValue))
     mutating func test() {
-        #expect(value == exampleComURL)
-        value = exampleOrgURL
-        #expect(value == exampleOrgURL)
+        #expect(value == devNullURL)
+        value = helloHappyWorldURL
+        #expect(value == helloHappyWorldURL)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "wrapped-value"
     )
-    var wrappedValue = exampleComURL
+    var wrappedValue = devNullURL
 
     @Test(.tags(.wrappedValue))
     mutating func testWrappedValue() {
-        #expect(wrappedValue == exampleComURL)
-        wrappedValue = exampleOrgURL
-        #expect(wrappedValue == exampleOrgURL)
+        #expect(wrappedValue == devNullURL)
+        wrappedValue = helloHappyWorldURL
+        #expect(wrappedValue == helloHappyWorldURL)
     }
 
     @Persisted(
@@ -51,8 +51,8 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
     @Test(.tags(.defaultValue))
     mutating func testOptionalValue() {
         #expect(optionalValue == nil)
-        optionalValue = exampleOrgURL
-        #expect(optionalValue == exampleOrgURL)
+        optionalValue = helloHappyWorldURL
+        #expect(optionalValue == helloHappyWorldURL)
         optionalValue = nil
         #expect(optionalValue == nil)
     }
@@ -66,8 +66,8 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
     @Test(.tags(.wrappedValue))
     mutating func testOptionalWrappedValue() {
         #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = exampleOrgURL
-        #expect(optionalWrappedValue == exampleOrgURL)
+        optionalWrappedValue = helloHappyWorldURL
+        #expect(optionalWrappedValue == helloHappyWorldURL)
         optionalWrappedValue = nil
         #expect(optionalWrappedValue == nil)
     }
@@ -77,15 +77,15 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
         key: "transform-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 },
-        defaultValue: exampleComURL
+        defaultValue: devNullURL
     )
     var transformValue
 
     @Test(.tags(.defaultValue))
     mutating func testTransformValue() {
-        #expect(transformValue == exampleComURL)
-        transformValue = exampleOrgURL
-        #expect(transformValue == exampleOrgURL)
+        #expect(transformValue == devNullURL)
+        transformValue = helloHappyWorldURL
+        #expect(transformValue == helloHappyWorldURL)
     }
 
     @Persisted(
@@ -94,13 +94,13 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformWrappedValue = exampleComURL
+    var transformWrappedValue = devNullURL
 
     @Test(.tags(.wrappedValue))
     mutating func testTransformWrappedValue() {
-        #expect(transformWrappedValue == exampleComURL)
-        transformWrappedValue = exampleOrgURL
-        #expect(transformWrappedValue == exampleOrgURL)
+        #expect(transformWrappedValue == devNullURL)
+        transformWrappedValue = helloHappyWorldURL
+        #expect(transformWrappedValue == helloHappyWorldURL)
     }
 
     @Persisted(
@@ -115,8 +115,8 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
     @Test(.tags(.defaultValue))
     mutating func testTransformOptionalValue() {
         #expect(transformOptionalValue == nil)
-        transformOptionalValue = exampleOrgURL
-        #expect(transformOptionalValue == exampleOrgURL)
+        transformOptionalValue = helloHappyWorldURL
+        #expect(transformOptionalValue == helloHappyWorldURL)
         transformOptionalValue = nil
         #expect(transformOptionalValue == nil)
     }
@@ -132,8 +132,8 @@ struct PersistedUserDefaultsURLStringKeyTests: Sendable {
     @Test(.tags(.wrappedValue))
     mutating func testTransformOptionalWrappedValue() {
         #expect(transformOptionalWrappedValue == nil)
-        transformOptionalWrappedValue = exampleOrgURL
-        #expect(transformOptionalWrappedValue == exampleOrgURL)
+        transformOptionalWrappedValue = helloHappyWorldURL
+        #expect(transformOptionalWrappedValue == helloHappyWorldURL)
         transformOptionalWrappedValue = nil
         #expect(transformOptionalWrappedValue == nil)
     }

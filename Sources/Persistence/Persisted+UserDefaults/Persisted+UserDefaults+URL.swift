@@ -209,6 +209,15 @@ public struct UserDefaultsForURL: UserDefaultsAdaptor {
     }
 
     public func set(value: URL?, forKey key: String) {
-        store.set(value, forKey: key)
+        #if canImport(Darwin)
+            store.set(value, forKey: key)
+        #else
+            // To prevent a potential freeze when setting `_value: URL?` to `nil` on non-Darwin platforms, the following workaround is used.
+            if let value {
+                store.set(value, forKey: key)
+            } else {
+                store.removeObject(forKey: key)
+            }
+        #endif
     }
 }

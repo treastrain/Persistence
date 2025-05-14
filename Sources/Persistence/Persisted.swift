@@ -79,7 +79,9 @@ public struct Persisted<
         }
     }
 
-    public var projectedValue: Self { self }
+    #if canImport(Darwin) || canImport(Combine)
+        public var projectedValue: Self { self }
+    #endif
 }
 
 extension Persisted where Value == Store.Value {
