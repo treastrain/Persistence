@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol PersistentStore {}
+public protocol PersistentStore: Sendable, ~Copyable {}
 
 extension Optional: PersistentStore where Wrapped: PersistentStore {}

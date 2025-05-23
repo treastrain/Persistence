@@ -105,11 +105,11 @@ extension PersistedNonSendableTests: Sendable {}
 private struct NonSendableStorageStore: KeyValuePersistentStore, Sendable {
     private nonisolated(unsafe) var storage: [String: NonSendableValue] = [:]
 
-    func getValue(forKey key: String) -> NonSendableValue? {
+    func getValue(forKey key: String) -> sending NonSendableValue? {
         storage[key]
     }
 
-    mutating func set(value: NonSendableValue?, forKey key: String) {
+    mutating func set(value: sending NonSendableValue?, forKey key: String) {
         storage[key] = value
     }
 }
@@ -126,11 +126,11 @@ private class Store<Value: Sendable>: KeyValuePersistentStore, @unchecked
 {
     private var storage: [String: Value] = [:]
 
-    func getValue(forKey key: String) -> Value? {
+    func getValue(forKey key: String) -> sending Value? {
         storage[key]
     }
 
-    func set(value: Value?, forKey key: String) {
+    func set(value: sending Value?, forKey key: String) {
         storage[key] = value
     }
 }

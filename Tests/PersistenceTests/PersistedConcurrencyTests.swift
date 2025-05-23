@@ -65,14 +65,14 @@
         }
     }
 
-    private struct Store<Value: Codable & Sendable>: KeyValuePersistentStore {
+    private struct Store<Value: Sendable>: KeyValuePersistentStore {
         private var storage: [String: Value] = [:]
 
-        func getValue(forKey key: String) -> Value? {
+        func getValue(forKey key: String) -> sending Value? {
             storage[key]
         }
 
-        mutating func set(value: Value?, forKey key: String) {
+        mutating func set(value: sending Value?, forKey key: String) {
             storage[key] = value
         }
     }

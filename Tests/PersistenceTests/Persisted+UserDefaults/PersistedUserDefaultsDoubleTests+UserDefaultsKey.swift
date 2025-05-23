@@ -81,16 +81,16 @@ private enum UserDefaultsKeys: String, UserDefaultsKey {
 
 extension Persisted where Store == UserDefaultsForDouble {
     fileprivate init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: UserDefaultsKeys,
         notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?
+        transformForGetting: @escaping @Sendable (sending Store.Value) -> Value?,
+        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
     ) {
         let key: some UserDefaultsKey = key
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: store,
             key: key,
             notificationName: notificationName,
@@ -102,14 +102,14 @@ extension Persisted where Store == UserDefaultsForDouble {
 
 extension Persisted where Store == UserDefaultsForDouble, Value == Store.Value {
     fileprivate init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: UserDefaultsKeys,
         notificationName: Notification.Name? = nil
     ) {
         let key: some UserDefaultsKey = key
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: store,
             key: key,
             notificationName: notificationName
@@ -120,14 +120,14 @@ extension Persisted where Store == UserDefaultsForDouble, Value == Store.Value {
 extension Persisted
 where Store == UserDefaultsForDouble?, Value == Store.Value {
     fileprivate init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: UserDefaultsKeys,
         notificationName: Notification.Name? = nil
     ) {
         let key: some UserDefaultsKey = key
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: store,
             key: key,
             notificationName: notificationName

@@ -11,14 +11,15 @@ import Foundation
 public struct Persisted<
     Store: KeyValuePersistentStore,
     Value: Sendable
->: Sendable where Store: Sendable {
+>: Sendable {
     public init(
-        wrappedValue: consuming Value,
-        store: Store,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending Store,
         key: String,
         notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?
+        transformForGetting: @escaping @Sendable (sending Store.Value) ->
+            Value?,
+        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
     ) {
         self.store = store
         self.key = key
@@ -26,23 +27,22 @@ public struct Persisted<
         self.transformForGetting = transformForGetting
         self.transformForSetting = transformForSetting
         self.defaultValue = wrappedValue
-        self.internalNotificationName = Notification.Name(UUID().uuidString)
     }
 
     var store: Store
     let key: String
     let notificationName: Notification.Name?
-    let transformForGetting: @Sendable (Store.Value) -> Value?
-    let transformForSetting: @Sendable (Value) -> Store.Value?
-    let defaultValue: Value
-    let internalNotificationName: Notification.Name
+    let transformForGetting: @Sendable (sending Store.Value) -> Value?
+    let transformForSetting: @Sendable (Value) -> sending Store.Value?
+    let defaultValue: @Sendable () -> Value
+    let internalNotificationName = Notification.Name(UUID().uuidString)
 
     public var wrappedValue: Value {
         get {
             if let value = store.getValue(forKey: key) {
-                transformForGetting(value) ?? defaultValue
+                transformForGetting(value) ?? defaultValue()
             } else {
-                defaultValue
+                defaultValue()
             }
         }
         set {
@@ -66,15 +66,18 @@ public struct Persisted<
     #endif
 }
 
+extension Persisted {
+}
+
 extension Persisted where Value == Store.Value {
     public init(
-        wrappedValue: consuming Value,
-        store: Store,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending Store,
         key: String,
         notificationName: Notification.Name? = nil
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: store,
             key: key,
             notificationName: notificationName,

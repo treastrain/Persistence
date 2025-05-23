@@ -9,7 +9,7 @@ import Foundation
 
 public protocol UserDefaultsAdaptor: KeyValuePersistentStore, Sendable {
     var store: UserDefaults { get }
-    init(store: consuming UserDefaults)
+    init(store: consuming sending UserDefaults)
 }
 
 public protocol UserDefaultsKey: RawRepresentable<String>, Sendable {}

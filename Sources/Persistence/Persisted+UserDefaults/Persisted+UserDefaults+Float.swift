@@ -9,15 +9,16 @@ import Foundation
 
 extension Persisted where Store == UserDefaultsForFloat {
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: String,
         notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?
+        transformForGetting: @escaping @Sendable (sending Store.Value) ->
+            Value?,
+        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(store: store),
             key: key,
             notificationName: notificationName,
@@ -27,15 +28,16 @@ extension Persisted where Store == UserDefaultsForFloat {
     }
 
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: some UserDefaultsKey,
         notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?
+        transformForGetting: @escaping @Sendable (sending Store.Value) ->
+            Value?,
+        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(store: store),
             key: key.rawValue,
             notificationName: notificationName,
@@ -47,13 +49,13 @@ extension Persisted where Store == UserDefaultsForFloat {
 
 extension Persisted where Store == UserDefaultsForFloat, Value == Store.Value {
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: String,
         notificationName: Notification.Name? = nil
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(store: store),
             key: key,
             notificationName: notificationName
@@ -61,13 +63,13 @@ extension Persisted where Store == UserDefaultsForFloat, Value == Store.Value {
     }
 
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: some UserDefaultsKey,
         notificationName: Notification.Name? = nil
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(store: store),
             key: key.rawValue,
             notificationName: notificationName
@@ -77,13 +79,13 @@ extension Persisted where Store == UserDefaultsForFloat, Value == Store.Value {
 
 extension Persisted where Store == UserDefaultsForFloat?, Value == Store.Value {
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: String,
         notificationName: Notification.Name? = nil
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(.init(store: store)),
             key: key,
             notificationName: notificationName
@@ -91,13 +93,13 @@ extension Persisted where Store == UserDefaultsForFloat?, Value == Store.Value {
     }
 
     public init(
-        wrappedValue: consuming Value,
-        store: consuming UserDefaults = .standard,
+        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
+        store: consuming sending UserDefaults = .standard,
         key: some UserDefaultsKey,
         notificationName: Notification.Name? = nil
     ) {
         self.init(
-            wrappedValue: wrappedValue,
+            wrappedValue: wrappedValue(),
             store: Store(.init(store: store)),
             key: key.rawValue,
             notificationName: notificationName
@@ -108,15 +110,15 @@ extension Persisted where Store == UserDefaultsForFloat?, Value == Store.Value {
 public struct UserDefaultsForFloat: UserDefaultsAdaptor {
     public nonisolated(unsafe) let store: UserDefaults
 
-    public init(store: consuming UserDefaults) {
+    public init(store: consuming sending UserDefaults) {
         self.store = store
     }
 
-    public func getValue(forKey key: String) -> Float? {
+    public func getValue(forKey key: String) -> sending Float? {
         store.object(forKey: key) == nil ? nil : store.float(forKey: key)
     }
 
-    public func set(value: Float?, forKey key: String) {
+    public func set(value: sending Float?, forKey key: String) {
         store.set(value, forKey: key)
     }
 }
