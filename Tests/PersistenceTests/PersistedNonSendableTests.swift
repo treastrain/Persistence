@@ -13,51 +13,17 @@ import Testing
 struct PersistedNonSendableTests {
     @Persisted(
         store: NonSendableStorageStore(),
-        key: "value",
-        transformForGetting: { $0.value },
-        transformForSetting: { NonSendableValue(value: $0) },
-        defaultValue: 0
-    )
-    var value
-
-    @Test(.tags(.defaultValue))
-    mutating func test() {
-        #expect(value == 0)
-        value = 1
-        #expect(value == 1)
-    }
-
-    @Persisted(
-        store: NonSendableStorageStore(),
         key: "wrapped-value",
         transformForGetting: { $0.value },
         transformForSetting: { NonSendableValue(value: $0) }
     )
     var wrappedValue = 0
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testWrappedValue() {
         #expect(wrappedValue == 0)
         wrappedValue = 1
         #expect(wrappedValue == 1)
-    }
-
-    @Persisted(
-        store: NonSendableStorageStore(),
-        key: "optional-value",
-        transformForGetting: { $0.value },
-        transformForSetting: { $0.map(NonSendableValue.init(value:)) },
-        defaultValue: nil
-    )
-    var optionalValue: Int?
-
-    @Test(.tags(.defaultValue))
-    mutating func testOptionalValue() {
-        #expect(optionalValue == nil)
-        optionalValue = 1
-        #expect(optionalValue == 1)
-        optionalValue = nil
-        #expect(optionalValue == nil)
     }
 
     @Persisted(
@@ -68,41 +34,13 @@ struct PersistedNonSendableTests {
     )
     var optionalWrappedValue: Int? = nil
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testOptionalWrappedValue() {
         #expect(optionalWrappedValue == nil)
         optionalWrappedValue = 1
         #expect(optionalWrappedValue == 1)
         optionalWrappedValue = nil
         #expect(optionalWrappedValue == nil)
-    }
-
-    @Persisted(
-        store: NonSendableStorageStore(),
-        key: "custom-notification-value",
-        notificationName: Notification.Name("custom-notification"),
-        transformForGetting: { $0.value },
-        transformForSetting: { NonSendableValue(value: $0) },
-        defaultValue: 0
-    )
-    var customNotificationValue
-
-    @Test(.tags(.defaultValue))
-    mutating func testCustomNotificationValue() async {
-        let name = Notification.Name("custom-notification")
-        await confirmation { confirmation in
-            _ = NotificationCenter.default.addObserver(
-                forName: name,
-                object: nil,
-                queue: nil,
-                using: { notification in
-                    let value = notification.object as! Int
-                    #expect(value == 1)
-                    confirmation()
-                }
-            )
-            customNotificationValue = 1
-        }
     }
 
     @Persisted(
@@ -116,7 +54,7 @@ struct PersistedNonSendableTests {
     )
     var customNotificationWrappedValue = 0
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testCustomNotificationWrappedValue() async {
         let name = Notification.Name("custom-notification-wrapped-value")
         await confirmation { confirmation in
@@ -140,12 +78,11 @@ struct PersistedNonSendableTests {
         store: transformFailedStore,
         key: transformFailedValueKey,
         transformForGetting: { Int($0) },
-        transformForSetting: { "\($0)" },
-        defaultValue: 999
+        transformForSetting: { "\($0)" }
     )
-    var transformFailedValue
+    var transformFailedValue = 999
 
-    @Test(.tags(.defaultValue))
+    @Test
     mutating func testTransformFailedValue() {
         #expect(transformFailedValue == 999)
         transformFailedValue = 1
@@ -153,10 +90,9 @@ struct PersistedNonSendableTests {
 
         @Persisted(
             store: Self.transformFailedStore,
-            key: Self.transformFailedValueKey,
-            defaultValue: ""
+            key: Self.transformFailedValueKey
         )
-        var injection: String
+        var injection = ""
         injection = "Injected"
 
         #expect(transformFailedValue == 999)

@@ -39,7 +39,7 @@ var string = ""
 # How to add to your project
 ## Package dependencies
 ```swift
-.package(url: "https://github.com/treastrain/Persistence", from: "0.2.1"),
+.package(url: "https://github.com/treastrain/Persistence", from: "0.3.0"),
 ```
 
 ## Target dependencies

@@ -13,23 +13,6 @@ public struct Persisted<
     Value: Sendable
 >: Sendable where Store: Sendable {
     public init(
-        store: Store,
-        key: String,
-        notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?,
-        defaultValue: consuming Value
-    ) {
-        self.store = store
-        self.key = key
-        self.notificationName = notificationName
-        self.transformForGetting = transformForGetting
-        self.transformForSetting = transformForSetting
-        self.defaultValue = defaultValue
-        self.internalNotificationName = Notification.Name(UUID().uuidString)
-    }
-
-    public init(
         wrappedValue: consuming Value,
         store: Store,
         key: String,
@@ -37,14 +20,13 @@ public struct Persisted<
         transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
         transformForSetting: @escaping @Sendable (Value) -> Store.Value?
     ) {
-        self.init(
-            store: store,
-            key: key,
-            notificationName: notificationName,
-            transformForGetting: transformForGetting,
-            transformForSetting: transformForSetting,
-            defaultValue: wrappedValue
-        )
+        self.store = store
+        self.key = key
+        self.notificationName = notificationName
+        self.transformForGetting = transformForGetting
+        self.transformForSetting = transformForSetting
+        self.defaultValue = wrappedValue
+        self.internalNotificationName = Notification.Name(UUID().uuidString)
     }
 
     var store: Store
@@ -85,22 +67,6 @@ public struct Persisted<
 }
 
 extension Persisted where Value == Store.Value {
-    public init(
-        store: Store,
-        key: String,
-        notificationName: Notification.Name? = nil,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: store,
-            key: key,
-            notificationName: notificationName,
-            transformForGetting: { $0 },
-            transformForSetting: { $0 },
-            defaultValue: defaultValue
-        )
-    }
-
     public init(
         wrappedValue: consuming Value,
         store: Store,

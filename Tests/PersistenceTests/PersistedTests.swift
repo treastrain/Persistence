@@ -13,25 +13,11 @@ import Testing
 struct PersistedTests: Sendable {
     @Persisted(
         store: Store(),
-        key: "value",
-        defaultValue: 0
-    )
-    var value
-
-    @Test(.tags(.defaultValue))
-    mutating func test() {
-        #expect(value == 0)
-        value = 1
-        #expect(value == 1)
-    }
-
-    @Persisted(
-        store: Store(),
         key: "wrapped-value"
     )
     var wrappedValue = 0
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testWrappedValue() {
         #expect(wrappedValue == 0)
         wrappedValue = 1
@@ -40,27 +26,11 @@ struct PersistedTests: Sendable {
 
     @Persisted(
         store: Store(),
-        key: "optional-value",
-        defaultValue: nil
-    )
-    var optionalValue: Int?
-
-    @Test(.tags(.defaultValue))
-    mutating func testOptionalValue() {
-        #expect(optionalValue == nil)
-        optionalValue = 1
-        #expect(optionalValue == 1)
-        optionalValue = nil
-        #expect(optionalValue == nil)
-    }
-
-    @Persisted(
-        store: Store(),
         key: "optional-wrapped-value"
     )
     var optionalWrappedValue: Int? = nil
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testOptionalWrappedValue() {
         #expect(optionalWrappedValue == nil)
         optionalWrappedValue = 1
@@ -71,38 +41,12 @@ struct PersistedTests: Sendable {
 
     @Persisted(
         store: Store(),
-        key: "custom-notification-value",
-        notificationName: Notification.Name("custom-notification"),
-        defaultValue: 0
-    )
-    var customNotificationValue
-
-    @Test(.tags(.defaultValue))
-    mutating func testCustomNotificationValue() async {
-        let name = Notification.Name("custom-notification")
-        await confirmation { confirmation in
-            _ = NotificationCenter.default.addObserver(
-                forName: name,
-                object: nil,
-                queue: nil,
-                using: { notification in
-                    let value = notification.object as! Int
-                    #expect(value == 1)
-                    confirmation()
-                }
-            )
-            customNotificationValue = 1
-        }
-    }
-
-    @Persisted(
-        store: Store(),
         key: "custom-notification-wrapped-value",
         notificationName: Notification.Name("custom-notification-wrapped-value")
     )
     var customNotificationWrappedValue = 0
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testCustomNotificationWrappedValue() async {
         let name = Notification.Name("custom-notification-wrapped-value")
         await confirmation { confirmation in

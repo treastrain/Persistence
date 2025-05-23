@@ -9,24 +9,6 @@ import Foundation
 
 extension Persisted where Store == UserDefaultsForStringArray {
     public init(
-        store: consuming UserDefaults = .standard,
-        key: String,
-        notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(store: store),
-            key: key,
-            notificationName: notificationName,
-            transformForGetting: transformForGetting,
-            transformForSetting: transformForSetting,
-            defaultValue: defaultValue
-        )
-    }
-
-    public init(
         wrappedValue: consuming Value,
         store: consuming UserDefaults = .standard,
         key: String,
@@ -41,24 +23,6 @@ extension Persisted where Store == UserDefaultsForStringArray {
             notificationName: notificationName,
             transformForGetting: transformForGetting,
             transformForSetting: transformForSetting
-        )
-    }
-
-    public init(
-        store: consuming UserDefaults = .standard,
-        key: some UserDefaultsKey,
-        notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> Store.Value?,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(store: store),
-            key: key.rawValue,
-            notificationName: notificationName,
-            transformForGetting: transformForGetting,
-            transformForSetting: transformForSetting,
-            defaultValue: defaultValue
         )
     }
 
@@ -84,20 +48,6 @@ extension Persisted where Store == UserDefaultsForStringArray {
 extension Persisted
 where Store == UserDefaultsForStringArray, Value == Store.Value {
     public init(
-        store: consuming UserDefaults = .standard,
-        key: String,
-        notificationName: Notification.Name? = nil,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(store: store),
-            key: key,
-            notificationName: notificationName,
-            defaultValue: defaultValue
-        )
-    }
-
-    public init(
         wrappedValue: consuming Value,
         store: consuming UserDefaults = .standard,
         key: String,
@@ -108,20 +58,6 @@ where Store == UserDefaultsForStringArray, Value == Store.Value {
             store: Store(store: store),
             key: key,
             notificationName: notificationName
-        )
-    }
-
-    public init(
-        store: consuming UserDefaults = .standard,
-        key: some UserDefaultsKey,
-        notificationName: Notification.Name? = nil,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(store: store),
-            key: key.rawValue,
-            notificationName: notificationName,
-            defaultValue: defaultValue
         )
     }
 
@@ -143,20 +79,6 @@ where Store == UserDefaultsForStringArray, Value == Store.Value {
 extension Persisted
 where Store == UserDefaultsForStringArray?, Value == Store.Value {
     public init(
-        store: consuming UserDefaults = .standard,
-        key: String,
-        notificationName: Notification.Name? = nil,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(.init(store: store)),
-            key: key,
-            notificationName: notificationName,
-            defaultValue: defaultValue
-        )
-    }
-
-    public init(
         wrappedValue: consuming Value,
         store: consuming UserDefaults = .standard,
         key: String,
@@ -167,20 +89,6 @@ where Store == UserDefaultsForStringArray?, Value == Store.Value {
             store: Store(.init(store: store)),
             key: key,
             notificationName: notificationName
-        )
-    }
-
-    public init(
-        store: consuming UserDefaults = .standard,
-        key: some UserDefaultsKey,
-        notificationName: Notification.Name? = nil,
-        defaultValue: consuming Value
-    ) {
-        self.init(
-            store: Store(.init(store: store)),
-            key: key.rawValue,
-            notificationName: notificationName,
-            defaultValue: defaultValue
         )
     }
 

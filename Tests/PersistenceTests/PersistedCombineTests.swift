@@ -15,33 +15,11 @@
     struct PersistedCombineTests: Sendable {
         @Persisted(
             store: Store(),
-            key: "value",
-            defaultValue: 0
-        )
-        var value
-
-        @Test(.tags(.defaultValue))
-        mutating func test() async {
-            #expect(value == 0)
-            let cancellable = await confirmation { confirmation in
-                let cancellable = $value.publisher.sink { value in
-                    #expect(value == 1)
-                    confirmation()
-                }
-                value = 1
-                return cancellable
-            }
-            cancellable.cancel()
-            #expect(value == 1)
-        }
-
-        @Persisted(
-            store: Store(),
             key: "wrapped-value"
         )
         var wrappedValue = 0
 
-        @Test(.tags(.wrappedValue))
+        @Test
         mutating func testWrappedValue() async {
             #expect(wrappedValue == 0)
             let cancellable = await confirmation { confirmation in
@@ -58,47 +36,11 @@
 
         @Persisted(
             store: Store(),
-            key: "optional-value",
-            defaultValue: nil
-        )
-        var optionalValue: Int?
-
-        @Test(.tags(.defaultValue))
-        mutating func testOptionalValue() async {
-            #expect(optionalValue == nil)
-            do {
-                let cancellable = await confirmation { confirmation in
-                    let cancellable = $optionalValue.publisher.sink { value in
-                        #expect(value == 1)
-                        confirmation()
-                    }
-                    optionalValue = 1
-                    return cancellable
-                }
-                cancellable.cancel()
-                #expect(optionalValue == 1)
-            }
-            do {
-                let cancellable = await confirmation { confirmation in
-                    let cancellable = $optionalValue.publisher.sink { value in
-                        #expect(value == nil)
-                        confirmation()
-                    }
-                    optionalValue = nil
-                    return cancellable
-                }
-                cancellable.cancel()
-                #expect(optionalValue == nil)
-            }
-        }
-
-        @Persisted(
-            store: Store(),
             key: "optional-wrapped-value"
         )
         var optionalWrappedValue: Int? = nil
 
-        @Test(.tags(.wrappedValue))
+        @Test
         mutating func testOptionalWrappedValue() async {
             #expect(optionalWrappedValue == nil)
             let cancellable = await confirmation { confirmation in

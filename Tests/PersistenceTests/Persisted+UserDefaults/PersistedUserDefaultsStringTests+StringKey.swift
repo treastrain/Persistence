@@ -16,54 +16,23 @@ private let anotherValue = "xyz"
 struct PersistedUserDefaultsStringStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "value",
-        defaultValue: defaultValue
-    )
-    var value
-
-    @Test(.tags(.defaultValue))
-    mutating func test() {
-        #expect(value == defaultValue)
-        value = anotherValue
-        #expect(value == anotherValue)
-    }
-
-    @Persisted(
-        store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "wrapped-value"
     )
     var wrappedValue = defaultValue
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testWrappedValue() {
         #expect(wrappedValue == defaultValue)
         wrappedValue = anotherValue
         #expect(wrappedValue == anotherValue)
     }
-
-    @Persisted(
-        store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-value",
-        defaultValue: nil
-    )
-    var optionalValue: String?
-
-    @Test(.tags(.defaultValue))
-    mutating func testOptionalValue() {
-        #expect(optionalValue == nil)
-        optionalValue = anotherValue
-        #expect(optionalValue == anotherValue)
-        optionalValue = nil
-        #expect(optionalValue == nil)
-    }
-
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "optional-wrapped-value"
     )
     var optionalWrappedValue: String? = nil
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testOptionalWrappedValue() {
         #expect(optionalWrappedValue == nil)
         optionalWrappedValue = anotherValue
@@ -71,23 +40,6 @@ struct PersistedUserDefaultsStringStringKeyTests: Sendable {
         optionalWrappedValue = nil
         #expect(optionalWrappedValue == nil)
     }
-
-    @Persisted(
-        store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-value",
-        transformForGetting: { $0 },
-        transformForSetting: { $0 },
-        defaultValue: defaultValue
-    )
-    var transformValue
-
-    @Test(.tags(.defaultValue))
-    mutating func testTransformValue() {
-        #expect(transformValue == defaultValue)
-        transformValue = anotherValue
-        #expect(transformValue == anotherValue)
-    }
-
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "transform-wrapped-value",
@@ -96,31 +48,12 @@ struct PersistedUserDefaultsStringStringKeyTests: Sendable {
     )
     var transformWrappedValue = defaultValue
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testTransformWrappedValue() {
         #expect(transformWrappedValue == defaultValue)
         transformWrappedValue = anotherValue
         #expect(transformWrappedValue == anotherValue)
     }
-
-    @Persisted(
-        store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-optional-value",
-        transformForGetting: { $0 },
-        transformForSetting: { $0 },
-        defaultValue: nil
-    )
-    var transformOptionalValue: String?
-
-    @Test(.tags(.defaultValue))
-    mutating func testTransformOptionalValue() {
-        #expect(transformOptionalValue == nil)
-        transformOptionalValue = anotherValue
-        #expect(transformOptionalValue == anotherValue)
-        transformOptionalValue = nil
-        #expect(transformOptionalValue == nil)
-    }
-
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "transform-optional-wrapped-value",
@@ -129,7 +62,7 @@ struct PersistedUserDefaultsStringStringKeyTests: Sendable {
     )
     var transformOptionalWrappedValue: String? = nil
 
-    @Test(.tags(.wrappedValue))
+    @Test
     mutating func testTransformOptionalWrappedValue() {
         #expect(transformOptionalWrappedValue == nil)
         transformOptionalWrappedValue = anotherValue
