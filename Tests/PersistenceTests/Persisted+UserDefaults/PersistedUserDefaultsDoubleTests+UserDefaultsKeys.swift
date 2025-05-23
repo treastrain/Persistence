@@ -71,10 +71,3 @@ struct PersistedUserDefaultsDoubleUserDefaultsKeysTests: Sendable {
         #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
     }
 }
-
-private enum UserDefaultsKeys: String, UserDefaultsKey {
-    case wrappedValue
-    case optionalWrappedValue
-    case transformWrappedValue
-    case transformOptionalWrappedValue
-}

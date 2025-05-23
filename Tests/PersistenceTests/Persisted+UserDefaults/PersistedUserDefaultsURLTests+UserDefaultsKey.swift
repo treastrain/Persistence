@@ -69,70 +69,10 @@ struct PersistedUserDefaultsURLUserDefaultsKeyTests: Sendable {
     mutating func testUserDefaultsKeysTransformOptionalWrappedValue() {
         #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
         userDefaultsKeysTransformOptionalWrappedValue = helloHappyWorldURL
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == helloHappyWorldURL)
+        #expect(
+            userDefaultsKeysTransformOptionalWrappedValue == helloHappyWorldURL
+        )
         userDefaultsKeysTransformOptionalWrappedValue = nil
         #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
-    }
-}
-
-private enum UserDefaultsKeys: String, UserDefaultsKey {
-    case wrappedValue
-    case optionalWrappedValue
-    case transformWrappedValue
-    case transformOptionalWrappedValue
-}
-
-extension Persisted where Store == UserDefaultsForURL {
-    fileprivate init(
-        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
-        store: consuming sending UserDefaults = .standard,
-        key: UserDefaultsKeys,
-        notificationName: Notification.Name? = nil,
-        transformForGetting: @escaping @Sendable (sending Store.Value) -> Value?,
-        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
-    ) {
-        let key: some UserDefaultsKey = key
-        self.init(
-            wrappedValue: wrappedValue(),
-            store: store,
-            key: key,
-            notificationName: notificationName,
-            transformForGetting: transformForGetting,
-            transformForSetting: transformForSetting
-        )
-    }
-}
-
-extension Persisted where Store == UserDefaultsForURL, Value == Store.Value {
-    fileprivate init(
-        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
-        store: consuming sending UserDefaults = .standard,
-        key: UserDefaultsKeys,
-        notificationName: Notification.Name? = nil
-    ) {
-        let key: some UserDefaultsKey = key
-        self.init(
-            wrappedValue: wrappedValue(),
-            store: store,
-            key: key,
-            notificationName: notificationName
-        )
-    }
-}
-
-extension Persisted where Store == UserDefaultsForURL?, Value == Store.Value {
-    fileprivate init(
-        wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
-        store: consuming sending UserDefaults = .standard,
-        key: UserDefaultsKeys,
-        notificationName: Notification.Name? = nil
-    ) {
-        let key: some UserDefaultsKey = key
-        self.init(
-            wrappedValue: wrappedValue(),
-            store: store,
-            key: key,
-            notificationName: notificationName
-        )
     }
 }

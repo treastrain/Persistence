@@ -66,9 +66,6 @@ public struct Persisted<
     #endif
 }
 
-extension Persisted {
-}
-
 extension Persisted where Value == Store.Value {
     public init(
         wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,

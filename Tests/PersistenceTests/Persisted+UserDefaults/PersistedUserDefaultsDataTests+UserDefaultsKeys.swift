@@ -84,10 +84,3 @@ struct PersistedUserDefaultsDataUserDefaultsKeysTests: Sendable {
         #expect(userDefaultsKeysOptionalWrappedCustomData == nil)
     }
 }
-
-private enum UserDefaultsKeys: String, UserDefaultsKey {
-    case wrappedValue
-    case optionalWrappedValue
-    case wrappedCustomData
-    case optionalWrappedCustomData
-}

@@ -69,15 +69,10 @@ struct PersistedUserDefaultsURLUserDefaultsKeysTests: Sendable {
     mutating func testUserDefaultsKeysTransformOptionalWrappedValue() {
         #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
         userDefaultsKeysTransformOptionalWrappedValue = helloHappyWorldURL
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == helloHappyWorldURL)
+        #expect(
+            userDefaultsKeysTransformOptionalWrappedValue == helloHappyWorldURL
+        )
         userDefaultsKeysTransformOptionalWrappedValue = nil
         #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
     }
-}
-
-private enum UserDefaultsKeys: String, UserDefaultsKey {
-    case wrappedValue
-    case optionalWrappedValue
-    case transformWrappedValue
-    case transformOptionalWrappedValue
 }
