@@ -55,8 +55,8 @@ struct PersistedTests: Sendable {
                 object: nil,
                 queue: nil,
                 using: { notification in
-                    let object = notification.object as! NotificationObject<Int>
-                    #expect(object.value == 1)
+                    let value = notification.object as! Int
+                    #expect(value == 1)
                     confirmation()
                 }
             )

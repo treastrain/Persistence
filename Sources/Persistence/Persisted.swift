@@ -30,7 +30,7 @@ public struct Persisted<
             if let notificationName {
                 NotificationCenter.default.post(
                     name: notificationName,
-                    object: NotificationObject(newValue)
+                    object: newValue
                 )
             }
         }
