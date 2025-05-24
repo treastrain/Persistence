@@ -32,7 +32,7 @@ struct PersistedNonSendableTests {
         transformForGetting: { $0.value },
         transformForSetting: { $0.map(NonSendableValue.init(value:)) }
     )
-    var optionalValue: Int? = nil
+    var optionalValue: Int?
 
     @Test
     mutating func testOptionalValue() {

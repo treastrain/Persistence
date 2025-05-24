@@ -27,7 +27,7 @@
         }
 
         @Persisted(key: "optional-value")
-        var optionalValue: Data? = nil
+        var optionalValue: Data?
 
         @Test(.mockUserDefaults)
         mutating func testOptionalValue() {
@@ -65,7 +65,7 @@
                 try! JSONEncoder().encode($0)
             }
         )
-        var optionalCustomData: CustomData? = nil
+        var optionalCustomData: CustomData?
 
         @Test(.mockUserDefaults)
         mutating func testOptionalCustomData() {
@@ -89,7 +89,7 @@
         }
 
         @Persisted(key: .optionalValue)
-        var userDefaultsKeyOptionalValue: Data? = nil
+        var userDefaultsKeyOptionalValue: Data?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeyOptionalValue() {
@@ -127,7 +127,7 @@
                 try! JSONEncoder().encode($0)
             }
         )
-        var userDefaultsKeyOptionalCustomData: CustomData? = nil
+        var userDefaultsKeyOptionalCustomData: CustomData?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeyOptionalCustomData() {
@@ -151,7 +151,7 @@
         }
 
         @Persisted(key: UserDefaultsKeys.optionalValue)
-        var userDefaultsKeysOptionalValue: Data? = nil
+        var userDefaultsKeysOptionalValue: Data?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeysOptionalValue() {
@@ -189,7 +189,7 @@
                 try! JSONEncoder().encode($0)
             }
         )
-        var userDefaultsKeysOptionalCustomData: CustomData? = nil
+        var userDefaultsKeysOptionalCustomData: CustomData?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeysOptionalCustomData() {

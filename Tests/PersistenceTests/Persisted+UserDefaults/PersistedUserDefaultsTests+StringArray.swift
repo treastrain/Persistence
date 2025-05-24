@@ -27,7 +27,7 @@
         }
 
         @Persisted(key: "optional-value")
-        var optionalValue: [String]? = nil
+        var optionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testOptionalValue() {
@@ -57,7 +57,7 @@
             transformForGetting: { $0 },
             transformForSetting: { $0 }
         )
-        var transformOptionalValue: [String]? = nil
+        var transformOptionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testTransformOptionalValue() {
@@ -81,7 +81,7 @@
         }
 
         @Persisted(key: .optionalValue)
-        var userDefaultsKeyOptionalValue: [String]? = nil
+        var userDefaultsKeyOptionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeyOptionalValue() {
@@ -111,7 +111,7 @@
             transformForGetting: { $0 },
             transformForSetting: { $0 }
         )
-        var userDefaultsKeyTransformOptionalValue: [String]? = nil
+        var userDefaultsKeyTransformOptionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeyTransformOptionalValue() {
@@ -135,7 +135,7 @@
         }
 
         @Persisted(key: UserDefaultsKeys.optionalValue)
-        var userDefaultsKeysOptionalValue: [String]? = nil
+        var userDefaultsKeysOptionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeysOptionalValue() {
@@ -165,7 +165,7 @@
             transformForGetting: { $0 },
             transformForSetting: { $0 }
         )
-        var userDefaultsKeysTransformOptionalValue: [String]? = nil
+        var userDefaultsKeysTransformOptionalValue: [String]?
 
         @Test(.mockUserDefaults)
         mutating func testUserDefaultsKeysTransformOptionalValue() {

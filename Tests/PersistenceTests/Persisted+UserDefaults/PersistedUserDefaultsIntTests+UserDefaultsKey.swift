@@ -28,7 +28,7 @@ struct PersistedUserDefaultsIntUserDefaultsKeyTests: Sendable {
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: .optionalValue
     )
-    var userDefaultsKeysOptionalValue: Int? = nil
+    var userDefaultsKeysOptionalValue: Int?
 
     @Test
     mutating func testUserDefaultsKeysOptionalValue() {
@@ -60,7 +60,7 @@ struct PersistedUserDefaultsIntUserDefaultsKeyTests: Sendable {
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var userDefaultsKeysTransformOptionalValue: Int? = nil
+    var userDefaultsKeysTransformOptionalValue: Int?
 
     @Test
     mutating func testUserDefaultsKeysTransformOptionalValue() {

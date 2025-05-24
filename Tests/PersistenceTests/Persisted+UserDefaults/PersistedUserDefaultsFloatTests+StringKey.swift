@@ -28,7 +28,7 @@ struct PersistedUserDefaultsFloatStringKeyTests: Sendable {
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "optional-value"
     )
-    var optionalValue: Float? = nil
+    var optionalValue: Float?
 
     @Test
     mutating func testOptionalValue() {
@@ -60,7 +60,7 @@ struct PersistedUserDefaultsFloatStringKeyTests: Sendable {
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformOptionalValue: Float? = nil
+    var transformOptionalValue: Float?
 
     @Test
     mutating func testTransformOptionalValue() {

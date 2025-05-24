@@ -37,7 +37,7 @@
             store: Store(),
             key: "optional-value"
         )
-        var optionalValue: Int? = nil
+        var optionalValue: Int?
 
         @Test
         mutating func testOptionalValue() async {

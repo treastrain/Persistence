@@ -31,7 +31,7 @@ struct PersistedUserDefaultsDataStringKeyTests: Sendable {
         store: UserDefaults(suiteName: UUID().uuidString)!,
         key: "optional-value"
     )
-    var optionalValue: Data? = nil
+    var optionalValue: Data?
 
     @Test
     mutating func testOptionalValue() {
@@ -71,7 +71,7 @@ struct PersistedUserDefaultsDataStringKeyTests: Sendable {
             try! JSONEncoder().encode($0)
         }
     )
-    var optionalWrappedCustomData: CustomData? = nil
+    var optionalWrappedCustomData: CustomData?
 
     @Test
     mutating func testOptionalWrappedCustomData() {

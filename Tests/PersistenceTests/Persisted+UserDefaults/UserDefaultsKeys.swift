@@ -37,6 +37,24 @@ extension Persisted {
             transformForSetting: transformForSetting
         )
     }
+
+    init<T, U>(
+        store: consuming sending UserDefaults = .standard,
+        key: UserDefaultsKeys,
+        notificationName: Notification.Name? = nil,
+        transformForGetting: @escaping @Sendable (sending Store.Value) ->
+            Value?,
+        transformForSetting: @escaping @Sendable (Value) -> sending Store.Value?
+    ) where Store == UserDefaultsAdaptor<T>, Value == U? {
+        let key: some UserDefaultsKey = key
+        self.init(
+            store: store,
+            key: key,
+            notificationName: notificationName,
+            transformForGetting: transformForGetting,
+            transformForSetting: transformForSetting
+        )
+    }
 }
 
 extension Persisted where Store == UserDefaultsAdaptor<Value> {
@@ -49,6 +67,19 @@ extension Persisted where Store == UserDefaultsAdaptor<Value> {
         let key: some UserDefaultsKey = key
         self.init(
             wrappedValue: wrappedValue(),
+            store: store,
+            key: key,
+            notificationName: notificationName
+        )
+    }
+
+    init<T>(
+        store: consuming sending UserDefaults = .standard,
+        key: UserDefaultsKeys,
+        notificationName: Notification.Name? = nil
+    ) where Value == T? {
+        let key: some UserDefaultsKey = key
+        self.init(
             store: store,
             key: key,
             notificationName: notificationName
