@@ -16,35 +16,35 @@ private let data2 = Data(repeating: 0x2, count: 16)
 struct PersistedUserDefaultsDataStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "wrapped-value"
+        key: "value"
     )
-    var wrappedValue = data1
+    var value = data1
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == data1)
-        wrappedValue = data2
-        #expect(wrappedValue == data2)
+    mutating func testValue() {
+        #expect(value == data1)
+        value = data2
+        #expect(value == data2)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-wrapped-value"
+        key: "optional-value"
     )
-    var optionalWrappedValue: Data? = nil
+    var optionalValue: Data? = nil
 
     @Test
-    mutating func testOptionalWrappedValue() {
-        #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = data2
-        #expect(optionalWrappedValue == data2)
-        optionalWrappedValue = nil
-        #expect(optionalWrappedValue == nil)
+    mutating func testOptionalValue() {
+        #expect(optionalValue == nil)
+        optionalValue = data2
+        #expect(optionalValue == data2)
+        optionalValue = nil
+        #expect(optionalValue == nil)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "wrapped-custom-data",
+        key: "custom-data",
         transformForGetting: {
             try! JSONDecoder().decode(CustomData.self, from: $0)
         },
@@ -63,7 +63,7 @@ struct PersistedUserDefaultsDataStringKeyTests: Sendable {
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-wrapped-custom-data",
+        key: "optional-custom-data",
         transformForGetting: {
             try! JSONDecoder().decode(CustomData?.self, from: $0)
         },

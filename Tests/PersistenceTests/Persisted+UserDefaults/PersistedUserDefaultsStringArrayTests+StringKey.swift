@@ -16,52 +16,52 @@ private let anotherArray = ["x", "y"]
 struct PersistedUserDefaultsStringArrayStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "wrapped-value"
+        key: "value"
     )
-    var wrappedValue = defaultArray
+    var value = defaultArray
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == defaultArray)
-        wrappedValue = anotherArray
-        #expect(wrappedValue == anotherArray)
+    mutating func testValue() {
+        #expect(value == defaultArray)
+        value = anotherArray
+        #expect(value == anotherArray)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-wrapped-value"
+        key: "optional-value"
     )
-    var optionalWrappedValue: [String]? = nil
+    var optionalValue: [String]? = nil
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-wrapped-value",
+        key: "transform-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformWrappedValue = defaultArray
+    var transformValue = defaultArray
 
     @Test
-    mutating func testTransformWrappedValue() {
-        #expect(transformWrappedValue == defaultArray)
-        transformWrappedValue = anotherArray
-        #expect(transformWrappedValue == anotherArray)
+    mutating func testTransformValue() {
+        #expect(transformValue == defaultArray)
+        transformValue = anotherArray
+        #expect(transformValue == anotherArray)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-optional-wrapped-value",
+        key: "transform-optional-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformOptionalWrappedValue: [String]? = nil
+    var transformOptionalValue: [String]? = nil
 
     @Test
-    mutating func testTransformOptionalWrappedValue() {
-        #expect(transformOptionalWrappedValue == nil)
-        transformOptionalWrappedValue = anotherArray
-        #expect(transformOptionalWrappedValue == anotherArray)
-        transformOptionalWrappedValue = nil
-        #expect(transformOptionalWrappedValue == nil)
+    mutating func testTransformOptionalValue() {
+        #expect(transformOptionalValue == nil)
+        transformOptionalValue = anotherArray
+        #expect(transformOptionalValue == anotherArray)
+        transformOptionalValue = nil
+        #expect(transformOptionalValue == nil)
     }
 }

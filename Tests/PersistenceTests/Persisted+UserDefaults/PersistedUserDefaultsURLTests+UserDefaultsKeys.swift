@@ -16,63 +16,63 @@ private let helloHappyWorldURL = URL(fileURLWithPath: "/hello/happy/world")
 struct PersistedUserDefaultsURLUserDefaultsKeysTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: UserDefaultsKeys.wrappedValue
+        key: UserDefaultsKeys.value
     )
-    var userDefaultsKeysWrappedValue = devNullURL
+    var userDefaultsKeysValue = devNullURL
 
     @Test
-    mutating func testUserDefaultsKeysWrappedValue() {
-        #expect(userDefaultsKeysWrappedValue == devNullURL)
-        userDefaultsKeysWrappedValue = helloHappyWorldURL
-        #expect(userDefaultsKeysWrappedValue == helloHappyWorldURL)
+    mutating func testUserDefaultsKeysValue() {
+        #expect(userDefaultsKeysValue == devNullURL)
+        userDefaultsKeysValue = helloHappyWorldURL
+        #expect(userDefaultsKeysValue == helloHappyWorldURL)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: UserDefaultsKeys.optionalWrappedValue
+        key: UserDefaultsKeys.optionalValue
     )
-    var userDefaultsKeysOptionalWrappedValue: URL? = nil
+    var userDefaultsKeysOptionalValue: URL? = nil
 
     @Test
-    mutating func testUserDefaultsKeysOptionalWrappedValue() {
-        #expect(userDefaultsKeysOptionalWrappedValue == nil)
-        userDefaultsKeysOptionalWrappedValue = helloHappyWorldURL
-        #expect(userDefaultsKeysOptionalWrappedValue == helloHappyWorldURL)
-        userDefaultsKeysOptionalWrappedValue = nil
-        #expect(userDefaultsKeysOptionalWrappedValue == nil)
+    mutating func testUserDefaultsKeysOptionalValue() {
+        #expect(userDefaultsKeysOptionalValue == nil)
+        userDefaultsKeysOptionalValue = helloHappyWorldURL
+        #expect(userDefaultsKeysOptionalValue == helloHappyWorldURL)
+        userDefaultsKeysOptionalValue = nil
+        #expect(userDefaultsKeysOptionalValue == nil)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: UserDefaultsKeys.transformWrappedValue,
+        key: UserDefaultsKeys.transformValue,
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var userDefaultsKeysTransformWrappedValue = devNullURL
+    var userDefaultsKeysTransformValue = devNullURL
 
     @Test
-    mutating func testUserDefaultsKeysTransformWrappedValue() {
-        #expect(userDefaultsKeysTransformWrappedValue == devNullURL)
-        userDefaultsKeysTransformWrappedValue = helloHappyWorldURL
-        #expect(userDefaultsKeysTransformWrappedValue == helloHappyWorldURL)
+    mutating func testUserDefaultsKeysTransformValue() {
+        #expect(userDefaultsKeysTransformValue == devNullURL)
+        userDefaultsKeysTransformValue = helloHappyWorldURL
+        #expect(userDefaultsKeysTransformValue == helloHappyWorldURL)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: UserDefaultsKeys.transformOptionalWrappedValue,
+        key: UserDefaultsKeys.transformOptionalValue,
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var userDefaultsKeysTransformOptionalWrappedValue: URL? = nil
+    var userDefaultsKeysTransformOptionalValue: URL? = nil
 
     @Test
-    mutating func testUserDefaultsKeysTransformOptionalWrappedValue() {
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
-        userDefaultsKeysTransformOptionalWrappedValue = helloHappyWorldURL
+    mutating func testUserDefaultsKeysTransformOptionalValue() {
+        #expect(userDefaultsKeysTransformOptionalValue == nil)
+        userDefaultsKeysTransformOptionalValue = helloHappyWorldURL
         #expect(
-            userDefaultsKeysTransformOptionalWrappedValue == helloHappyWorldURL
+            userDefaultsKeysTransformOptionalValue == helloHappyWorldURL
         )
-        userDefaultsKeysTransformOptionalWrappedValue = nil
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
+        userDefaultsKeysTransformOptionalValue = nil
+        #expect(userDefaultsKeysTransformOptionalValue == nil)
     }
 }

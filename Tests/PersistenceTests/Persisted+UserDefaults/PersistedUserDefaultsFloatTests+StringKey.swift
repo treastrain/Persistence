@@ -13,61 +13,61 @@ import Testing
 struct PersistedUserDefaultsFloatStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "wrapped-value"
+        key: "value"
     )
-    var wrappedValue: Float = 0.0
+    var value: Float = 0.0
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == 0.0)
-        wrappedValue = 0.1
-        #expect(wrappedValue == 0.1)
+    mutating func testValue() {
+        #expect(value == 0.0)
+        value = 0.1
+        #expect(value == 0.1)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-wrapped-value"
+        key: "optional-value"
     )
-    var optionalWrappedValue: Float? = nil
+    var optionalValue: Float? = nil
 
     @Test
-    mutating func testOptionalWrappedValue() {
-        #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = 0.1
-        #expect(optionalWrappedValue == 0.1)
-        optionalWrappedValue = nil
-        #expect(optionalWrappedValue == nil)
+    mutating func testOptionalValue() {
+        #expect(optionalValue == nil)
+        optionalValue = 0.1
+        #expect(optionalValue == 0.1)
+        optionalValue = nil
+        #expect(optionalValue == nil)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-wrapped-value",
+        key: "transform-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformWrappedValue: Float = 0.0
+    var transformValue: Float = 0.0
 
     @Test
-    mutating func testTransformWrappedValue() {
-        #expect(transformWrappedValue == 0.0)
-        transformWrappedValue = 0.1
-        #expect(transformWrappedValue == 0.1)
+    mutating func testTransformValue() {
+        #expect(transformValue == 0.0)
+        transformValue = 0.1
+        #expect(transformValue == 0.1)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-optional-wrapped-value",
+        key: "transform-optional-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformOptionalWrappedValue: Float? = nil
+    var transformOptionalValue: Float? = nil
 
     @Test
-    mutating func testTransformOptionalWrappedValue() {
-        #expect(transformOptionalWrappedValue == nil)
-        transformOptionalWrappedValue = 0.1
-        #expect(transformOptionalWrappedValue == 0.1)
-        transformOptionalWrappedValue = nil
-        #expect(transformOptionalWrappedValue == nil)
+    mutating func testTransformOptionalValue() {
+        #expect(transformOptionalValue == nil)
+        transformOptionalValue = 0.1
+        #expect(transformOptionalValue == 0.1)
+        transformOptionalValue = nil
+        #expect(transformOptionalValue == nil)
     }
 }

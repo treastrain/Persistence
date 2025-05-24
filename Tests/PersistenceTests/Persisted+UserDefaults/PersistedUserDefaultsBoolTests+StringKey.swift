@@ -13,61 +13,61 @@ import Testing
 struct PersistedUserDefaultsBoolStringKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "wrapped-value"
+        key: "value"
     )
-    var wrappedValue = false
+    var value = false
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == false)
-        wrappedValue = true
-        #expect(wrappedValue == true)
+    mutating func testValue() {
+        #expect(value == false)
+        value = true
+        #expect(value == true)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "optional-wrapped-value"
+        key: "optional-value"
     )
-    var optionalWrappedValue: Bool? = nil
+    var optionalValue: Bool? = nil
 
     @Test
-    mutating func testOptionalWrappedValue() {
-        #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = true
-        #expect(optionalWrappedValue == true)
-        optionalWrappedValue = nil
-        #expect(optionalWrappedValue == nil)
+    mutating func testOptionalValue() {
+        #expect(optionalValue == nil)
+        optionalValue = true
+        #expect(optionalValue == true)
+        optionalValue = nil
+        #expect(optionalValue == nil)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-wrapped-value",
+        key: "transform-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformWrappedValue = false
+    var transformValue = false
 
     @Test
-    mutating func testTransformWrappedValue() {
-        #expect(transformWrappedValue == false)
-        transformWrappedValue = true
-        #expect(transformWrappedValue == true)
+    mutating func testTransformValue() {
+        #expect(transformValue == false)
+        transformValue = true
+        #expect(transformValue == true)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: "transform-optional-wrapped-value",
+        key: "transform-optional-value",
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var transformOptionalWrappedValue: Bool? = nil
+    var transformOptionalValue: Bool? = nil
 
     @Test
-    mutating func testTransformOptionalWrappedValue() {
-        #expect(transformOptionalWrappedValue == nil)
-        transformOptionalWrappedValue = true
-        #expect(transformOptionalWrappedValue == true)
-        transformOptionalWrappedValue = nil
-        #expect(transformOptionalWrappedValue == nil)
+    mutating func testTransformOptionalValue() {
+        #expect(transformOptionalValue == nil)
+        transformOptionalValue = true
+        #expect(transformOptionalValue == true)
+        transformOptionalValue = nil
+        #expect(transformOptionalValue == nil)
     }
 }

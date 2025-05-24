@@ -16,61 +16,61 @@ private let anotherValue = "xyz"
 struct PersistedUserDefaultsStringUserDefaultsKeyTests: Sendable {
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: .wrappedValue
+        key: .value
     )
-    var userDefaultsKeysWrappedValue = defaultValue
+    var userDefaultsKeysValue = defaultValue
 
     @Test
-    mutating func testUserDefaultsKeysWrappedValue() {
-        #expect(userDefaultsKeysWrappedValue == defaultValue)
-        userDefaultsKeysWrappedValue = anotherValue
-        #expect(userDefaultsKeysWrappedValue == anotherValue)
+    mutating func testUserDefaultsKeysValue() {
+        #expect(userDefaultsKeysValue == defaultValue)
+        userDefaultsKeysValue = anotherValue
+        #expect(userDefaultsKeysValue == anotherValue)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: .optionalWrappedValue
+        key: .optionalValue
     )
-    var userDefaultsKeysOptionalWrappedValue: String? = nil
+    var userDefaultsKeysOptionalValue: String? = nil
 
     @Test
-    mutating func testUserDefaultsKeysOptionalWrappedValue() {
-        #expect(userDefaultsKeysOptionalWrappedValue == nil)
-        userDefaultsKeysOptionalWrappedValue = anotherValue
-        #expect(userDefaultsKeysOptionalWrappedValue == anotherValue)
-        userDefaultsKeysOptionalWrappedValue = nil
-        #expect(userDefaultsKeysOptionalWrappedValue == nil)
+    mutating func testUserDefaultsKeysOptionalValue() {
+        #expect(userDefaultsKeysOptionalValue == nil)
+        userDefaultsKeysOptionalValue = anotherValue
+        #expect(userDefaultsKeysOptionalValue == anotherValue)
+        userDefaultsKeysOptionalValue = nil
+        #expect(userDefaultsKeysOptionalValue == nil)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: .transformWrappedValue,
+        key: .transformValue,
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var userDefaultsKeysTransformWrappedValue = defaultValue
+    var userDefaultsKeysTransformValue = defaultValue
 
     @Test
-    mutating func testUserDefaultsKeysTransformWrappedValue() {
-        #expect(userDefaultsKeysTransformWrappedValue == defaultValue)
-        userDefaultsKeysTransformWrappedValue = anotherValue
-        #expect(userDefaultsKeysTransformWrappedValue == anotherValue)
+    mutating func testUserDefaultsKeysTransformValue() {
+        #expect(userDefaultsKeysTransformValue == defaultValue)
+        userDefaultsKeysTransformValue = anotherValue
+        #expect(userDefaultsKeysTransformValue == anotherValue)
     }
 
     @Persisted(
         store: UserDefaults(suiteName: UUID().uuidString)!,
-        key: .transformOptionalWrappedValue,
+        key: .transformOptionalValue,
         transformForGetting: { $0 },
         transformForSetting: { $0 }
     )
-    var userDefaultsKeysTransformOptionalWrappedValue: String? = nil
+    var userDefaultsKeysTransformOptionalValue: String? = nil
 
     @Test
-    mutating func testUserDefaultsKeysTransformOptionalWrappedValue() {
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
-        userDefaultsKeysTransformOptionalWrappedValue = anotherValue
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == anotherValue)
-        userDefaultsKeysTransformOptionalWrappedValue = nil
-        #expect(userDefaultsKeysTransformOptionalWrappedValue == nil)
+    mutating func testUserDefaultsKeysTransformOptionalValue() {
+        #expect(userDefaultsKeysTransformOptionalValue == nil)
+        userDefaultsKeysTransformOptionalValue = anotherValue
+        #expect(userDefaultsKeysTransformOptionalValue == anotherValue)
+        userDefaultsKeysTransformOptionalValue = nil
+        #expect(userDefaultsKeysTransformOptionalValue == nil)
     }
 }

@@ -13,42 +13,42 @@ import Testing
 struct PersistedTests: Sendable {
     @Persisted(
         store: Store(),
-        key: "wrapped-value"
+        key: "value"
     )
-    var wrappedValue = 0
+    var value = 0
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == 0)
-        wrappedValue = 1
-        #expect(wrappedValue == 1)
+    mutating func testValue() {
+        #expect(value == 0)
+        value = 1
+        #expect(value == 1)
     }
 
     @Persisted(
         store: Store(),
-        key: "optional-wrapped-value"
+        key: "optional-value"
     )
-    var optionalWrappedValue: Int? = nil
+    var optionalValue: Int? = nil
 
     @Test
-    mutating func testOptionalWrappedValue() {
-        #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = 1
-        #expect(optionalWrappedValue == 1)
-        optionalWrappedValue = nil
-        #expect(optionalWrappedValue == nil)
+    mutating func testOptionalValue() {
+        #expect(optionalValue == nil)
+        optionalValue = 1
+        #expect(optionalValue == 1)
+        optionalValue = nil
+        #expect(optionalValue == nil)
     }
 
     @Persisted(
         store: Store(),
-        key: "custom-notification-wrapped-value",
-        notificationName: Notification.Name("custom-notification-wrapped-value")
+        key: "custom-notification-value",
+        notificationName: Notification.Name("custom-notification-value")
     )
-    var customNotificationWrappedValue = 0
+    var customNotificationValue = 0
 
     @Test
-    mutating func testCustomNotificationWrappedValue() async {
-        let name = Notification.Name("custom-notification-wrapped-value")
+    mutating func testCustomNotificationValue() async {
+        let name = Notification.Name("custom-notification-value")
         await confirmation { confirmation in
             _ = NotificationCenter.default.addObserver(
                 forName: name,
@@ -60,7 +60,7 @@ struct PersistedTests: Sendable {
                     confirmation()
                 }
             )
-            customNotificationWrappedValue = 1
+            customNotificationValue = 1
         }
     }
 }

@@ -9,12 +9,12 @@ import Foundation
 import Persistence
 
 enum UserDefaultsKeys: String, UserDefaultsKey {
-    case wrappedValue
-    case optionalWrappedValue
-    case transformWrappedValue
-    case transformOptionalWrappedValue
-    case wrappedCustomData
-    case optionalWrappedCustomData
+    case value
+    case optionalValue
+    case transformValue
+    case transformOptionalValue
+    case customData
+    case optionalCustomData
 }
 
 extension Persisted {
@@ -39,8 +39,7 @@ extension Persisted {
     }
 }
 
-extension Persisted
-where Store == UserDefaultsAdaptor<Value>, Value == Store.Value {
+extension Persisted where Store == UserDefaultsAdaptor<Value> {
     init(
         wrappedValue: @autoclosure @escaping @Sendable () -> sending Value,
         store: consuming sending UserDefaults = .standard,

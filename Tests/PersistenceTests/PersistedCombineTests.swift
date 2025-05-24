@@ -15,45 +15,45 @@
     struct PersistedCombineTests: Sendable {
         @Persisted(
             store: Store(),
-            key: "wrapped-value"
+            key: "value"
         )
-        var wrappedValue = 0
+        var value = 0
 
         @Test
-        mutating func testWrappedValue() async {
-            #expect(wrappedValue == 0)
+        mutating func testValue() async {
+            #expect(value == 0)
             let cancellable = await confirmation { confirmation in
-                let cancellable = $wrappedValue.publisher.sink { value in
+                let cancellable = $value.publisher.sink { value in
                     #expect(value == 1)
                     confirmation()
                 }
-                wrappedValue = 1
+                value = 1
                 return cancellable
             }
             cancellable.cancel()
-            #expect(wrappedValue == 1)
+            #expect(value == 1)
         }
 
         @Persisted(
             store: Store(),
-            key: "optional-wrapped-value"
+            key: "optional-value"
         )
-        var optionalWrappedValue: Int? = nil
+        var optionalValue: Int? = nil
 
         @Test
-        mutating func testOptionalWrappedValue() async {
-            #expect(optionalWrappedValue == nil)
+        mutating func testOptionalValue() async {
+            #expect(optionalValue == nil)
             let cancellable = await confirmation { confirmation in
-                let cancellable = $optionalWrappedValue.publisher.sink {
+                let cancellable = $optionalValue.publisher.sink {
                     value in
                     #expect(value == 1)
                     confirmation()
                 }
-                optionalWrappedValue = 1
+                optionalValue = 1
                 return cancellable
             }
             cancellable.cancel()
-            #expect(optionalWrappedValue == 1)
+            #expect(optionalValue == 1)
         }
     }
 

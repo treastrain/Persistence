@@ -13,50 +13,50 @@ import Testing
 struct PersistedNonSendableTests {
     @Persisted(
         store: NonSendableStorageStore(),
-        key: "wrapped-value",
+        key: "value",
         transformForGetting: { $0.value },
         transformForSetting: { NonSendableValue(value: $0) }
     )
-    var wrappedValue = 0
+    var value = 0
 
     @Test
-    mutating func testWrappedValue() {
-        #expect(wrappedValue == 0)
-        wrappedValue = 1
-        #expect(wrappedValue == 1)
+    mutating func testValue() {
+        #expect(value == 0)
+        value = 1
+        #expect(value == 1)
     }
 
     @Persisted(
         store: NonSendableStorageStore(),
-        key: "optional-wrapped-value",
+        key: "optional-value",
         transformForGetting: { $0.value },
         transformForSetting: { $0.map(NonSendableValue.init(value:)) }
     )
-    var optionalWrappedValue: Int? = nil
+    var optionalValue: Int? = nil
 
     @Test
-    mutating func testOptionalWrappedValue() {
-        #expect(optionalWrappedValue == nil)
-        optionalWrappedValue = 1
-        #expect(optionalWrappedValue == 1)
-        optionalWrappedValue = nil
-        #expect(optionalWrappedValue == nil)
+    mutating func testOptionalValue() {
+        #expect(optionalValue == nil)
+        optionalValue = 1
+        #expect(optionalValue == 1)
+        optionalValue = nil
+        #expect(optionalValue == nil)
     }
 
     @Persisted(
         store: NonSendableStorageStore(),
-        key: "custom-notification-wrapped-value",
+        key: "custom-notification-value",
         notificationName: Notification.Name(
-            "custom-notification-wrapped-value"
+            "custom-notification-value"
         ),
         transformForGetting: { $0.value },
         transformForSetting: { NonSendableValue(value: $0) }
     )
-    var customNotificationWrappedValue = 0
+    var customNotificationValue = 0
 
     @Test
-    mutating func testCustomNotificationWrappedValue() async {
-        let name = Notification.Name("custom-notification-wrapped-value")
+    mutating func testCustomNotificationValue() async {
+        let name = Notification.Name("custom-notification-value")
         await confirmation { confirmation in
             _ = NotificationCenter.default.addObserver(
                 forName: name,
@@ -68,7 +68,7 @@ struct PersistedNonSendableTests {
                     confirmation()
                 }
             )
-            customNotificationWrappedValue = 1
+            customNotificationValue = 1
         }
     }
 
