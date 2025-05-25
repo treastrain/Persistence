@@ -21,6 +21,7 @@ public struct Persisted<
             }
         }
         set {
+            guard !((wrappedValue as? any Equatable)?.isEqual(to: newValue) ?? false) else { return }
             let value = transformForSetting(newValue)
             store.set(value: value, forKey: key)
             NotificationCenter.default.post(
@@ -46,7 +47,17 @@ public struct Persisted<
     let transformForGetting: @Sendable (sending Store.Value) -> Value?
     let transformForSetting: @Sendable (Value) -> sending Store.Value?
     let defaultValue: @Sendable () -> Value
-    let internalNotificationName = Notification.Name(UUID().uuidString)
+    internal var internalNotificationName: Notification.Name {
+        Notification.Name(
+            "jp.tret.persistence.internal-notification.\(Store.self).\(key)"
+        )
+    }
+}
+
+extension Equatable {
+    fileprivate func isEqual(to other: Any) -> Bool {
+        self == (other as? Self)
+    }
 }
 
 extension Persisted {
